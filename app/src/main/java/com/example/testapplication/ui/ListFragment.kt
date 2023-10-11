@@ -22,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
+
     // This property is only valid between onCreateView and
 // onDestroyView.
     private val binding get() = _binding!!
@@ -36,41 +37,66 @@ class ListFragment : Fragment() {
         val view = binding.root
         setupRecyclerView()
         adapter.setOnItemClickListener {
-            Log.d("test","ami fragment")
-            val action =
-                ListFragmentDirections.actionListFragmentToDetailsFragment(it)
-            findNavController().navigate(action)
+//            Log.d("test","ami fragment")
+//            val action =
+//                ListFragmentDirections.actionListFragmentToDetailsFragment(it)
+//            findNavController().navigate(action)
         }
-        mainViewModel.res.observe(viewLifecycleOwner, Observer {
-            when(it.status){
+//        mainViewModel.res.observe(viewLifecycleOwner, Observer {
+//            when(it.status){
+//                Status.SUCCESS -> {
+//                    binding.paginationProgressBar.visibility = View.GONE
+//                    binding.rvBreakingNews.visibility = View.VISIBLE
+//                    it.data.let { res->
+//
+//                    }
+//                }
+//                Status.LOADING->{
+//                    binding.paginationProgressBar.visibility = View.VISIBLE
+//                   binding.rvBreakingNews.visibility = View.GONE
+//                }
+//                Status.ERROR->{
+//                    binding.paginationProgressBar.visibility = View.GONE
+//                    binding.rvBreakingNews.visibility = View.VISIBLE
+//                   Snackbar.make(binding.rootView, "Something went wrong",Snackbar.LENGTH_SHORT).show()
+//                }
+//            }
+//        })
+
+        mainViewModel.resArticle.observe(viewLifecycleOwner, Observer { it ->
+            when (it.status) {
                 Status.SUCCESS -> {
                     binding.paginationProgressBar.visibility = View.GONE
                     binding.rvBreakingNews.visibility = View.VISIBLE
-                    it.data.let {res->
-                        if (res?.status == "success"){
-                            Log.d("Test", res.data.toString())
-                            res.data?.let { it1 -> adapter.submitList(it1) }
-                        }else{
-                            Snackbar.make(binding.rootView, "Status = false",Snackbar.LENGTH_SHORT).show()
+                    it.data.let {
+                        if (it?.totalResults!! >= 0) {
+                            it.articles.let { it2 ->
+                                adapter.submitList(it2)
+                            }
+                        } else {
+                            Snackbar.make(binding.rootView, "Status = false", Snackbar.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 }
+
                 Status.LOADING -> {
                     binding.paginationProgressBar.visibility = View.VISIBLE
                     binding.rvBreakingNews.visibility = View.GONE
                 }
+
                 Status.ERROR -> {
                     binding.paginationProgressBar.visibility = View.GONE
                     binding.rvBreakingNews.visibility = View.VISIBLE
-                    Snackbar.make(binding.rootView, "Something went wrong",Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.rootView, "Something went wrong", Snackbar.LENGTH_SHORT)
+                        .show()
                 }
             }
         })
         return view
     }
 
-    private fun setupRecyclerView()
-    {
+    private fun setupRecyclerView() {
         adapter = EmployeeAdapter()
         binding.rvBreakingNews.layoutManager = LinearLayoutManager(requireContext())
         binding.rvBreakingNews.adapter = adapter

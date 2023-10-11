@@ -21,7 +21,7 @@ import kotlin.String
 object AppModule {
 
     @Provides
-    fun provideBaseUrl() = Constants.BASE_URL
+    fun provideBaseUrl() = Constants.BASE_URL2
 
     @Singleton
     @Provides
@@ -39,9 +39,9 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL: String): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL2: String): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
+        .baseUrl(BASE_URL2)
         .client(okHttpClient)
         .build()
 

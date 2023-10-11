@@ -1,10 +1,9 @@
 package com.example.testapplication.api
 
-import com.example.testapplication.models.EmployeeResponse
+import com.example.testapplication.models.NewsResponse
 import retrofit2.Response
 
 interface ApiHelper {
 
-    suspend fun getEmployees(): Response<EmployeeResponse>
-
+    suspend fun getArticle():Response<NewsResponse>
 }

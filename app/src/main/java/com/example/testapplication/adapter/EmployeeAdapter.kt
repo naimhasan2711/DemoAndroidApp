@@ -4,39 +4,43 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.testapplication.R
-import com.example.testapplication.models.Employee
+import com.example.testapplication.models.Article
 
 class EmployeeAdapter: RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder>(){
 
     inner class EmployeeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val name = itemView.findViewById<TextView>(R.id.tvName)
-        val age = itemView.findViewById<TextView>(R.id.tvAge)
-        val salary = itemView.findViewById<TextView>(R.id.tvSalary)
+        val image = itemView.findViewById<ImageView>(R.id.ivArticleImage)
+        val source = itemView.findViewById<TextView>(R.id.tvSource)
+        val title = itemView.findViewById<TextView>(R.id.tvTitle)
+        val description = itemView.findViewById<TextView>(R.id.tvDescription)
+        val publish = itemView.findViewById<TextView>(R.id.tvPublishedAt)
     }
 
-    private val differCallback = object : DiffUtil.ItemCallback<Employee>() {
-        override fun areItemsTheSame(oldItem: Employee, newItem: Employee): Boolean {
-            return oldItem.id == newItem.id
+    private val differCallback = object : DiffUtil.ItemCallback<Article>() {
+        override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+            return oldItem.url == newItem.url
         }
 
-        override fun areContentsTheSame(oldItem: Employee, newItem: Employee): Boolean {
+        override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem == newItem
         }
     }
 
     val differ = AsyncListDiffer(this, differCallback)
 
-    fun submitList(list: List<Employee>) = differ.submitList(list)
+    fun submitList(list: List<Article>) = differ.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmployeeViewHolder {
         return EmployeeViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.employee_item,
+                R.layout.item_article_preview,
                 parent,
                 false
             )
@@ -47,15 +51,17 @@ class EmployeeAdapter: RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder>(
         return differ.currentList.size
     }
 
-    private var onItemClickListener: ((Employee) -> Unit)? = null
+    private var onItemClickListener: ((Article) -> Unit)? = null
 
     override fun onBindViewHolder(holder: EmployeeViewHolder, position: Int) {
         val article = differ.currentList[position]
         holder.itemView.apply {
 
-            holder.name.text = article.employee_name
-            holder.age.text = article.employee_age
-            holder.salary.text = article.employee_salary
+            Glide.with(this).load(article.urlToImage).into(holder.image)
+            holder.source.text = article.source.name
+            holder.title.text = article.title
+            holder.description.text = article.description
+            holder.publish.text = article.publishedAt
 
             setOnClickListener {
                 Log.d("test", "ami adapter ")
@@ -64,7 +70,7 @@ class EmployeeAdapter: RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder>(
         }
     }
 
-    fun setOnItemClickListener(listener: (Employee) -> Unit) {
+    fun setOnItemClickListener(listener: (Article) -> Unit) {
         onItemClickListener = listener
     }
  }

@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.testapplication.R
 import com.example.testapplication.models.Article
 
-class EmployeeAdapter: RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder>(){
+class NewsAdapter: RecyclerView.Adapter<NewsAdapter.EmployeeViewHolder>(){
 
     inner class EmployeeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val image = itemView.findViewById<ImageView>(R.id.ivArticleImage)

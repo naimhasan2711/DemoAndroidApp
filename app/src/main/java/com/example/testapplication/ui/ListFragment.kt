@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,31 +36,8 @@ class ListFragment : Fragment() {
         val view = binding.root
         setupRecyclerView()
         adapter.setOnItemClickListener {
-//            Log.d("test","ami fragment")
-//            val action =
-//                ListFragmentDirections.actionListFragmentToDetailsFragment(it)
-//            findNavController().navigate(action)
+            Toast.makeText(requireContext(), it.title, Toast.LENGTH_SHORT).show()
         }
-//        mainViewModel.res.observe(viewLifecycleOwner, Observer {
-//            when(it.status){
-//                Status.SUCCESS -> {
-//                    binding.paginationProgressBar.visibility = View.GONE
-//                    binding.rvBreakingNews.visibility = View.VISIBLE
-//                    it.data.let { res->
-//
-//                    }
-//                }
-//                Status.LOADING->{
-//                    binding.paginationProgressBar.visibility = View.VISIBLE
-//                   binding.rvBreakingNews.visibility = View.GONE
-//                }
-//                Status.ERROR->{
-//                    binding.paginationProgressBar.visibility = View.GONE
-//                    binding.rvBreakingNews.visibility = View.VISIBLE
-//                   Snackbar.make(binding.rootView, "Something went wrong",Snackbar.LENGTH_SHORT).show()
-//                }
-//            }
-//        })
 
         mainViewModel.resArticle.observe(viewLifecycleOwner, Observer { it ->
             when (it.status) {

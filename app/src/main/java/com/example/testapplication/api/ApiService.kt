@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface ApiService{
 
-    @GET("v2/top-headlines?country=us&category=business&apiKey=64ca4704ac1f4fe5b58a0b5cb785ed3a")
+    @GET("v2/top-headlines")
     suspend fun getBreakingNews(
         @Query("country")
         countryCode: String = "us",

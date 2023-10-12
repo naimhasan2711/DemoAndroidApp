@@ -1,19 +1,24 @@
 package com.example.testapplication.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.testapplication.R
 import com.example.testapplication.adapter.NewsAdapter
 import com.example.testapplication.databinding.FragmentListBinding
 import com.example.testapplication.utils.Status
 import com.example.testapplication.viewmodel.EmployeeViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -21,9 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
-
-    // This property is only valid between onCreateView and
-// onDestroyView.
     private val binding get() = _binding!!
     private val mainViewModel: EmployeeViewModel by viewModels()
     private lateinit var adapter: NewsAdapter
@@ -33,10 +35,19 @@ class ListFragment : Fragment() {
     ): View? {
 
         _binding = FragmentListBinding.inflate(inflater, container, false)
-        val view = binding.root
         setupRecyclerView()
         adapter.setOnItemClickListener {
             Toast.makeText(requireContext(), it.title, Toast.LENGTH_SHORT).show()
+            Log.d("list of article>>>",it.toString())
+            findNavController().navigate(R.id.action_listFragment_to_detailsFragment,
+                bundleOf(
+                    Pair(
+                        "article", Gson().toJson(
+                            it
+                        )
+                    )
+                )
+                )
         }
 
         mainViewModel.resArticle.observe(viewLifecycleOwner, Observer { it ->
@@ -69,7 +80,7 @@ class ListFragment : Fragment() {
                 }
             }
         })
-        return view
+        return binding.root
     }
 
     private fun setupRecyclerView() {

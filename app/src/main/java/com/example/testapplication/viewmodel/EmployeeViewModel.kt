@@ -19,14 +19,11 @@ class EmployeeViewModel @Inject constructor(
     var breakingNewsPage = 1
     val resArticle: MutableLiveData<Resource<NewsResponse>>
         get() = _resArticle
-
-
     init {
         getBreakingNews()
     }
 
-
-    fun getBreakingNews() = viewModelScope.launch {
+    private fun getBreakingNews() = viewModelScope.launch {
         _resArticle.postValue(Resource.loading(null))
         employeeRepository.getArticles().let {
             if (it.isSuccessful) {

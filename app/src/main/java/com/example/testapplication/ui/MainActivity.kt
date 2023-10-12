@@ -1,7 +1,7 @@
 package com.example.testapplication.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.testapplication.R
 import com.example.testapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint

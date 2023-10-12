@@ -1,17 +1,12 @@
 package com.example.testapplication.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.example.testapplication.R
 import com.example.testapplication.databinding.FragmentDetailsBinding
-import com.example.testapplication.databinding.FragmentListBinding
 import com.example.testapplication.models.Article
 import com.google.gson.Gson
 

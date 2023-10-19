@@ -3,6 +3,7 @@ package com.example.testapplication.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.testapplication.models.Article
 import com.example.testapplication.models.NewsResponse
 import com.example.testapplication.repository.EmployeeRepository
 import com.example.testapplication.utils.Resource
@@ -31,5 +32,9 @@ class EmployeeViewModel @Inject constructor(
                 _resArticle.postValue(Resource.error(it.errorBody().toString(), null))
             }
         }
+    }
+
+    fun addArticleIntoDB(article: Article) = viewModelScope.launch {
+        employeeRepository.addArticle(article)
     }
 }

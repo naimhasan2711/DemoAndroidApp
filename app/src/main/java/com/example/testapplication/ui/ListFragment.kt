@@ -39,6 +39,7 @@ class ListFragment : Fragment() {
         adapter.setOnItemClickListener {
             Toast.makeText(requireContext(), it.title, Toast.LENGTH_SHORT).show()
             Log.d("list of article>>>",it.toString())
+            mainViewModel.addArticleIntoDB(it)
             findNavController().navigate(R.id.action_listFragment_to_detailsFragment,
                 bundleOf(
                     Pair(

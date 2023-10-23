@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testapplication.R
 import com.example.testapplication.adapter.NewsAdapter
 import com.example.testapplication.databinding.FragmentListBinding
+import com.example.testapplication.utils.PreferenceHelper
 import com.example.testapplication.utils.Status
 import com.example.testapplication.viewmodel.EmployeeViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -29,18 +30,21 @@ class ListFragment : Fragment() {
     private val binding get() = _binding!!
     private val mainViewModel: EmployeeViewModel by viewModels()
     private lateinit var adapter: NewsAdapter
+    private lateinit var preferenceHelper: PreferenceHelper
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         _binding = FragmentListBinding.inflate(inflater, container, false)
+        preferenceHelper = PreferenceHelper(requireContext())
         setupRecyclerView()
         adapter.setOnItemClickListener {
             Toast.makeText(requireContext(), it.title, Toast.LENGTH_SHORT).show()
-            Log.d("list of article>>>",it.toString())
+            Log.d("list of article>>>", it.toString())
             mainViewModel.addArticleIntoDB(it)
-            findNavController().navigate(R.id.action_listFragment_to_detailsFragment,
+            findNavController().navigate(
+                R.id.action_listFragment_to_detailsFragment,
                 bundleOf(
                     Pair(
                         "article", Gson().toJson(
@@ -48,7 +52,7 @@ class ListFragment : Fragment() {
                         )
                     )
                 )
-                )
+            )
         }
 
         mainViewModel.resArticle.observe(viewLifecycleOwner, Observer { it ->
